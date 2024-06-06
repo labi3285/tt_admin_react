@@ -1,0 +1,44 @@
+
+.tt-login-form {
+    max-width: 400px;
+    min-width: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    .title-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        .logo {
+            max-height: 40px;
+            margin-right: 10px;
+        }
+        .title {
+            font-size: 20px;
+            color: #333333;
+        }
+    }
+}
+
+.tt-login-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .top-space {
+        flex: 1;
+    }
+    .bottom-space {
+        flex: 1.6;
+    }
+    .content {
+        display: flex;
+        .left-space {
+            flex: 1;
+        }
+        .right-space {
+            flex: 1;
+        }
+    }
+}

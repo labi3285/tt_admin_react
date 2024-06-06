@@ -1,0 +1,16 @@
+
+.placeholder {
+    &__empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 100px;
+        &__message {
+            margin: 10px 0;
+            font-size: 12px;
+            color: #999999;
+        }
+    }
+}
