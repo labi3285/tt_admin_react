@@ -1,6 +1,6 @@
 
-import { CSSProperties, useState } from 'react'
-import { Pagination, Flex, Space } from 'antd'
+import { CSSProperties } from 'react'
+import { Pagination, Flex } from 'antd'
 
 export interface Props {
     total?: number

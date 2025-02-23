@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
-
 import * as Button from '@/tt_core/components/Button/index'
 import * as Table from '@/tt_core/components/Table/index'
 import * as Form from '@/tt_core/components/Form/index'
@@ -18,7 +17,7 @@ export default () => {
 
   const [roles, setRoles] = useState<UserRole[]>([])
   const rolesOptions = useMemo(() => {
-    return roles.map(e => ({ value: e.id, label: e.name }))
+    return roles.map(e => ({ value: e.code, label: e.name }))
   }, [roles])
 
   useEffect(() => {
@@ -38,11 +37,11 @@ export default () => {
   }
   const tableRef = useRef<Table.PageTableInterface>(null)
   const tableColumns: () => Table.Column<UserRole>[] = () => [
-    { title: 'ID', valueKey: 'id', width: 80 },
+    { title: '角色组码', valueKey: 'code', width: 200 },
     { title: '名称', valueKey: 'name', width: 150 },
     { title: '描述', valueKey: 'desc', width: 300 },
-    { title: '更新时间', valueKey: 'update_time', width: 150, render: Table.RenderDate('YYYY-MM-DD HH:mm:ss') },
-    { title: '创建时间', valueKey: 'create_time', width: 150, render: Table.RenderDate('YYYY-MM-DD HH:mm:ss') },
+    { title: '更新时间', valueKey: 'update_time', width: 180, render: Table.RenderDate('YYYY-MM-DD HH:mm:ss') },
+    { title: '创建时间', valueKey: 'create_time', width: 180, render: Table.RenderDate('YYYY-MM-DD HH:mm:ss') },
   ]
   const tableOperationColumn: Table.OperationColumn<UserRoleGroup> = {
     title: '操作',
@@ -51,6 +50,7 @@ export default () => {
       {
         title: '编辑',
         type: 'default',
+        show: (item: UserRoleGroup) => !item.is_reserved,
         onClick: (item: UserRoleGroup, i: number) => {
           onEdit(item, i)
         },
@@ -61,6 +61,7 @@ export default () => {
         title: '删除',
         type: 'primary',
         danger: true,
+        show: (item: UserRoleGroup) => !item.is_reserved,
         confirm: { message: '你确定要删除吗？' },
         onClick: async (row: UserRoleGroup, i: number) => {
           await doDelete(row, i)
@@ -100,8 +101,8 @@ export default () => {
     })
   }
   const doEdit = async (form: Record<string, any>) => {
-    await post(itemRef.current?.id ? '/user_role_group/edit' : '/user_role_group/add', {
-      code: itemRef.current?.id,
+    await post(itemRef.current?.code ? '/user_role_group/edit' : '/user_role_group/add', {
+      code: itemRef.current?.code,
       ...form
     })
     tableRef.current?.reload()
@@ -117,7 +118,7 @@ export default () => {
             <Form.Item label="名称" required={true} valueKey='name'>
               <Edit.Input />
             </Form.Item>
-            <Form.Item label="角色" required={true} valueKey='role_ids'>
+            <Form.Item label="角色" required={true} valueKey='role_codes'>
               <Edit.SelectMultiple options={rolesOptions} />
             </Form.Item>
             <Form.Item label="描述" valueKey='desc'>
@@ -132,28 +133,23 @@ export default () => {
 
   // --------------------------------------------- 删除 ---------------------------------------------
   const doDelete = async (item: UserRoleGroup, i: number) => {
-    await post('/user_role_group/del', { code: item.id })
+    await post('/user_role_group/del', { code: item.code })
     tableRef.current?.removeRow(i)
   }
 
-  post('/user/get_my_info')
-
-
   return (
     <>
-      <Form.Form initData={queryRef.current} onReset={onReset} onSubmit={onQuery} >
-        <Form.Section>
-          <Form.Item label="ID" valueKey='id'>
-            <Edit.InputNumber controls={false} dec={0} />
-          </Form.Item>
-          <Form.Item label="关键词" valueKey='search'>
-            <Edit.Input />
-          </Form.Item>
-          <Form.ItemQueryReset />
-        </Form.Section>
-      </Form.Form>
+      <Form.FormQuery initData={queryRef.current} onReset={onReset} onSubmit={onQuery} >
+        <Form.ItemQuery width={170} valueKey='code'>
+          <Edit.Input placeholder="角色组码" />
+        </Form.ItemQuery>
+        <Form.ItemQuery width={170} valueKey='search'>
+          <Edit.Input placeholder="搜索" />
+        </Form.ItemQuery>
+        <Form.ItemQueryReset />
+      </Form.FormQuery>
       <Table.Bar>
-          <Button.Add onClick={onAdd} />
+        <Button.Add onClick={onAdd} />
       </Table.Bar>
       <Table.PageTable ref={tableRef} columns={tableColumns()} operationColumn={tableOperationColumn} onLoad={onLoad} />
     </>

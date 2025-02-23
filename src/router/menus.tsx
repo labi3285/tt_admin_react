@@ -3,13 +3,18 @@
 import { Tab } from '@/tt_core/index'
 
 import { homeTab } from './modules/home'
-import { demoTab } from './modules/demo'
-import { systemManageTab  } from './modules/user'
+// import { demoTab } from './modules/demo'
+import { newsTab  } from './modules/news'
+import { houseTab } from './modules/house'
+import { marketingTab } from './modules/marketing'
+import { systemTab } from './modules/system'
 
 const tabs: Tab[] = [
     homeTab,
-    systemManageTab,
-    demoTab,
+    newsTab,
+    houseTab,
+    marketingTab,
+    systemTab,
 ]
 
 export default tabs

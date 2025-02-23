@@ -13,3 +13,9 @@ export { default as SelectTree } from './SelectTree'
 export { default as EditTags } from './EditTags'
 export { default as Switch } from './Switch'
 export { default as UploadImage } from './UploadImage'
+export { default as UploadImages } from './UploadImages'
+export { default as UploadFile } from './UploadFile'
+export { default as UploadVideo } from './UploadVideo'
+
+
+export { default as RichContent } from './RichContent/index'

@@ -1,6 +1,5 @@
 
-import { CSSProperties, useState, useEffect, forwardRef, useImperativeHandle } from 'react'
-import { App } from 'antd'
+import { CSSProperties, useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 
 import { Column, OperationColumn } from './Table'
 import Table from './Table'
@@ -33,22 +32,25 @@ const Component = <T extends object>(props: Props<T>, ref: any) => {
 
     const [rows, setRows] = useState<T[]>([])
     const [total, setTotal] = useState<number | undefined>(undefined)
-    const [page_num, setPageNum] = useState(props.defaultPageOne ? 1 : 0)
-    const [page_size, setPageSize] = useState(15)
+    const pageNumRef = useRef(props.defaultPageOne ? 1 : 0)
+    const pageSizeRef = useRef(15)
+
+    // const [page_num, setPageNum] = useState(props.defaultPageOne ? 1 : 0)
+    // const [page_size, setPageSize] = useState(15)
     const [loading, setLoading] = useState(false)
     const [emptyText, setEmptyText] = useState<string | undefined>()
 
-    const onPageChange = (page_num: number) => {
-        setPageNum(page_num)
+    const onPageChange = (pageNum: number) => {
+        pageNumRef.current = pageNum
         loadData()
     }
-    const onPageSizeChange = (size: number) => {
-        setPageSize(size)
+    const onPageSizeChange = (pageSize: number) => {
+        pageSizeRef.current = pageSize
         loadData()
     }
     const loadData = () => {
         setLoading(true)
-        props.onLoad(page_num, page_size).then(data => {
+        props.onLoad(pageNumRef.current, pageSizeRef.current).then(data => {
             setRows(data.rows)
             setTotal(data.total)
             setEmptyText(undefined)
@@ -95,8 +97,8 @@ const Component = <T extends object>(props: Props<T>, ref: any) => {
 
             <Pagination
                 total={total}
-                page={page_num}
-                size={page_size}
+                page={pageNumRef.current}
+                size={pageSizeRef.current}
                 disabled={loading}
                 sizeOptions={props.page_sizeOptions}
                 defaultPageOne={props.defaultPageOne}

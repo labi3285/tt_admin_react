@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { App, Modal, Button } from 'antd'
+import { Modal, Button } from 'antd'
 import { ButtonType } from '../index'
 import { createPopupDom } from '../../layout/popup-dom'
 

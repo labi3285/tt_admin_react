@@ -3,7 +3,7 @@ import { CSSProperties, ReactNode, useMemo } from 'react'
 import { Select } from 'antd'
 import { Option } from '../index'
 
-export interface Props<T extends number | string> {
+export interface Props<T extends number | string | boolean> {
     value?: T,
     placeholder?: string
     onChange?: (value: T | undefined) => void
@@ -15,7 +15,7 @@ export interface Props<T extends number | string> {
     className?: string
     style?: CSSProperties
 }
-const Component = <T extends number | string>(props: Props<T>) => {
+const Component = <T extends number | string | boolean>(props: Props<T>) => {
     const items = useMemo(() => {
         const arr: ReactNode[] = []
         for (let i = 0; i < props.options.length; i++) {

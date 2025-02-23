@@ -16,18 +16,15 @@ import { getPathComponents } from '../utils/path.ts'
 
 import tabs from '@/router/menus.tsx'
 
-import { useSelector } from '@/store/index'
+import { useSelector, useDispatch } from '@/store/index'
+import menusSlice from '../store/menus.ts'
 
 import { Menu } from '../index.ts'
 
 export default (props: {
   children?: ReactElement
 }) => {
-
-  const { message } = App.useApp()
-
-  //@ts-ignore
-  window.tt_message = message
+  const dispatch = useDispatch()
 
   const systemUser = useSelector((state) => state.systemUser)
 
@@ -67,8 +64,9 @@ export default (props: {
     setIsActiveTabsShow(getPathComponents(location.pathname).length > 2)
   }, [location])
 
-  const onTab = (i: number) => {
+  const onTab = async (i: number) => {
     const tab = tabs[i]
+    dispatch(menusSlice.actions.cleanTabs());
     navigate(tab.path)
   }
 

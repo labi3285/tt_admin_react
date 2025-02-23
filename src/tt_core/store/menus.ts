@@ -47,6 +47,10 @@ export default createSlice({
         }
       }
     },
+    cleanTabs: (state) => {
+      state.activeTabs = []
+      localStorage.setItem(LOCAL_STORAGE_KEY__ACTIVE_TABS, JSON.stringify([]))
+    },
     setActiveTabs: (state, Action: PayloadAction<ActiveTab[]>) => {
       state.activeTabs = Action.payload
       if (Action.payload) {

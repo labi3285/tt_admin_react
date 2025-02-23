@@ -17,7 +17,6 @@ export interface Props {
     api: (file: File) => Promise<string>
 
     maxSize?: number
-    accept?: string
 
     onChange?: (value: string | undefined) => void
 
@@ -34,9 +33,14 @@ const Component = (props: Props) => {
             message.error('图片过大');
             return
         }
+        if (!props.api) {
+            message.error('请设置上传api');
+            return
+        }
+        console.log(file)
         setLoading(true)
         try {
-            const url = await props.api(file)
+            const url = await props.api(file.file)
             props.onChange && props.onChange(url)
         } catch (err: any) {
             if (!err.code || err.code > 0) {
@@ -63,7 +67,7 @@ const Component = (props: Props) => {
     )
     const uploadButton = (
         <Upload
-            accept={props.accept}
+            accept='.png,.jpg'
             disabled={props.disabled}
             showUploadList={false}
             customRequest={onUpload}

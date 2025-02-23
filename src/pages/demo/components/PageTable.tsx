@@ -31,25 +31,7 @@ export default () => {
     ],
   }
   const onLoad = async (page: number, size: number) => {
-    const data: any = await post('/page', { page, size }, {
-      items: [
-        {
-          aId: 1,
-          aShortText: 'Jack',
-          aLongText: 'ahdjskajdkas',
-          aType: 0,
-          aLabels: ['aa', 'bb']
-        },
-        {
-          aId: 2,
-          aShortText: 'Helen',
-          aLongText: 'ahdjskajdkas',
-          aType: 1,
-          aLabels: ['aa', 'bb']
-        },
-      ],
-      total: 99
-    })
+    const data: any = await post('/page', { page, size })
     return {
       rows: data.items,
       total: data.total
